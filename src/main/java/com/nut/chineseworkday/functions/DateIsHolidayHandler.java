@@ -2,6 +2,7 @@ package com.nut.chineseworkday.functions;
 
 import com.aliyun.fc.runtime.Context;
 import com.aliyun.fc.runtime.PojoRequestHandler;
+import com.nut.chineseworkday.pojo.DateIsHolidayRequest;
 import com.nut.chineseworkday.pojo.Response;
 import com.nut.chineseworkday.pojo.DateIsHolidayResponseData;
 
@@ -12,15 +13,19 @@ import java.util.Date;
 
 import static java.util.Calendar.SUNDAY;
 
-public class DateIsHolidayHandler implements PojoRequestHandler<String, Response<DateIsHolidayResponseData>> {
-    public Response<DateIsHolidayResponseData> handleRequest(String dateString, Context context) {
+public class DateIsHolidayHandler implements PojoRequestHandler<DateIsHolidayRequest, Response<DateIsHolidayResponseData>> {
+    public Response<DateIsHolidayResponseData> handleRequest(DateIsHolidayRequest request, Context context) {
+        String dateString = request.getDateString();
+        if(dateString == null || dateString.trim().isEmpty()){
+            return Response.createFailResponse("param invalid","param dateString required.");
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date;
         try {
             date = dateFormat.parse(dateString);
         } catch (ParseException e) {
             context.getLogger().error("fail to parse date:" + dateString);
-            return Response.createFailResponse("DateFormat Error","correct dateFormat is \"yyyy/MM/dd\"");
+            return Response.createFailResponse("DateFormat Error","correct dateFormat is 'yyyy/MM/dd'.");
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
