@@ -14,12 +14,13 @@ import com.nut.chineseworkday.pojo.ApiGatewayResponse;
 import com.nut.chineseworkday.pojo.DateIsHolidayResponseData;
 import com.nut.chineseworkday.pojo.Response;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DateIsHolidayHandlerForApiGateway implements PojoRequestHandler<ApiGatewayRequest, ApiGatewayResponse> {
-    com.nut.chineseworkday.configuration.Config localConfig = new PropertyConfig();
+    private com.nut.chineseworkday.configuration.Config localConfig = new PropertyConfig("config.properties");
 
     public ApiGatewayResponse handleRequest(ApiGatewayRequest request, Context context) {
         context.getLogger().debug("apiGatewayRequest is " + JSON.toJSONString(request));

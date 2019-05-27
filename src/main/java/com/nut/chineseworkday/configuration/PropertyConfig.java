@@ -7,21 +7,17 @@ import java.util.Properties;
 public class PropertyConfig implements Config {
     private  static Properties properties = new Properties();
 
-    static {
-        InputStream stream = PropertyConfig.class.getClassLoader().getResourceAsStream("config.properties");
+    public PropertyConfig(String path) {
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(path);
         try {
             properties.load(stream);
         } catch (IOException e) {
-            e.printStackTrace();    // FunctionCompute LogStore will accept it.
+            e.printStackTrace();
         }
     }
-
     @Override
     public String getConfigStringValue(String key) {
         return properties.getProperty(key);
     }
 
-    public static void main(String[] args) {
-        new PropertyConfig();
-    }
 }

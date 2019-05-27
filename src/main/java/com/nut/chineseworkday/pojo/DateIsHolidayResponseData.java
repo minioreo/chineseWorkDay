@@ -5,15 +5,15 @@ import com.alibaba.fastjson.annotation.JSONField;
 public class DateIsHolidayResponseData {
     @JSONField(name = "isHoliday")
     private boolean isHoliday;
-    @JSONField(name = "holidayName")
-    private String holidayName;
+    @JSONField(name = "relatedHolidayName")
+    private String relatedHolidayName;
 
     public boolean getIsHoliday() {
         return isHoliday;
     }
 
-    public String getHolidayName() {
-        return holidayName;
+    public String getRelatedHolidayName() {
+        return relatedHolidayName;
     }
 
     public boolean isHoliday() {
@@ -24,20 +24,15 @@ public class DateIsHolidayResponseData {
         isHoliday = holiday;
     }
 
-    public void setHolidayName(String holidayName) {
-        this.holidayName = holidayName;
+    public void setRelatedHolidayName(String relatedHolidayName) {
+        this.relatedHolidayName = relatedHolidayName;
     }
 
-    public static DateIsHolidayResponseData createHolidayResponse(String holidayName){
+    public static DateIsHolidayResponseData create(boolean isHoliday, String relatedHolidayName){
         DateIsHolidayResponseData response = new DateIsHolidayResponseData();
-        response.isHoliday = true;
-        response.holidayName = holidayName;
+        response.isHoliday = isHoliday;
+        response.relatedHolidayName = relatedHolidayName;
         return response;
     }
 
-    public static DateIsHolidayResponseData createWorkdayResponse(){
-        DateIsHolidayResponseData response = new DateIsHolidayResponseData();
-        response.isHoliday = false;
-        return response;
-    }
 }

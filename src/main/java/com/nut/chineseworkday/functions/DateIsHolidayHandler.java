@@ -2,7 +2,10 @@ package com.nut.chineseworkday.functions;
 
 import com.aliyun.fc.runtime.Context;
 import com.aliyun.fc.runtime.PojoRequestHandler;
+import com.nut.chineseworkday.biz.ConfigBasedHolidayManager;
+import com.nut.chineseworkday.biz.HolidayManager;
 import com.nut.chineseworkday.pojo.DateIsHolidayRequest;
+import com.nut.chineseworkday.pojo.DayJudgeResult;
 import com.nut.chineseworkday.pojo.Response;
 import com.nut.chineseworkday.pojo.DateIsHolidayResponseData;
 
@@ -11,9 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static java.util.Calendar.SUNDAY;
-
 public class DateIsHolidayHandler implements PojoRequestHandler<DateIsHolidayRequest, Response<DateIsHolidayResponseData>> {
+    private HolidayManager holidayManager = new ConfigBasedHolidayManager();
     public Response<DateIsHolidayResponseData> handleRequest(DateIsHolidayRequest request, Context context) {
         String dateString = request.getDateString();
         if(dateString == null || dateString.trim().isEmpty()){
@@ -29,16 +31,9 @@ public class DateIsHolidayHandler implements PojoRequestHandler<DateIsHolidayReq
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return weekDayHandler(calendar);
+        DayJudgeResult result = holidayManager.dayJudge(calendar);
+        return Response.createSuccessResponse(DateIsHolidayResponseData.create(result.isHoliday(),result.getRelatedHolidayName()));
     }
 
-    private Response<DateIsHolidayResponseData> weekDayHandler(Calendar calendar){
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if(dayOfWeek == Calendar.SATURDAY || dayOfWeek == SUNDAY){
-            return Response.createSuccessResponse(DateIsHolidayResponseData.createHolidayResponse("周末"));
-        }
-        else{
-            return Response.createSuccessResponse(DateIsHolidayResponseData.createWorkdayResponse());
-        }
-    }
+
 }
