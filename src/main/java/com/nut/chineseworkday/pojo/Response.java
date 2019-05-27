@@ -1,12 +1,33 @@
 package com.nut.chineseworkday.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class Response<T> {
+    @JSONField(name = "success")
     private boolean success;
+    @JSONField(name = "errorCode")
     private String errorCode;
+    @JSONField(name = "errorMessage")
     private String errorMessage;
     private T data;
 
-    public boolean isSuccess() {
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public boolean getIsSuccess() {
         return success;
     }
 

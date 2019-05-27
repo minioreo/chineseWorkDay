@@ -2,3 +2,4 @@
 /.idea/
 /chineseworkday.iml
 /target/
+/src/main/resources/config.properties
